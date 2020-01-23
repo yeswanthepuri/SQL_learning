@@ -115,7 +115,7 @@ WHERE manager.name is null then 'No Manager' else manager.Name
 as managername from tbluser asuser join tbluser manager
 on user.ManagerID = Manager.ID
 <br/>
-<b>COALESCE() function</b>:
+<b>COALESCE() function</b>: this is used for getting the first non null value.
 select name,COALESCE(name,'No Manager') as managername from tbluser asuser join tbluser manager
 on user.ManagerID = Manager.ID
 
