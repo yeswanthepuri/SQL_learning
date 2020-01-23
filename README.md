@@ -13,3 +13,13 @@ constraint constraint_name Default value
 drop:
 alter table tablename
 drop constraint constraintname
+
+Cascading referential integrity constraint:
+they are 4 options t do this:
+1.Set Default: if an atempt is made to delete or alter which is referenced by forigen key then the column is set to default.
+
+2.Noaction:if an atempt is made to delete or alter which is referenced by forigen key will not allow us to delete
+
+3.Cascade:if an atempt is made to delete or alter which is referenced by forigen key it will delete the columns in the other table in which the reference is present.
+
+4.Set Null:if an atempt is made to delete or alter which is referenced by forigen key set to null.
