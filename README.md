@@ -23,3 +23,10 @@ they are 4 options t do this:
 3.Cascade:if an atempt is made to delete or alter which is referenced by forigen key it will delete the columns in the other table in which the reference is present.
 
 4.Set Null:if an atempt is made to delete or alter which is referenced by forigen key set to null.
+
+
+Adding a check Constraint:
+  this allowes us to add some check logic:
+syntax:
+alter TABLE tbluser
+add CONSTRAINT ck_tbluser_age CHECK (Age>0 and Age<150)
