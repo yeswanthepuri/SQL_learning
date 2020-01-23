@@ -68,3 +68,37 @@ Having gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
 
 -- in both the cases the we get the same result but in where we only sum the results on gender
 -- but in having we first aggrigate and then filter
+
+<b>Types of Joins in SQL</b>
+-inner join: Only matching rows between both the tables will be coming
+select * from tbluser inner join tbldepartment 
+on tbluser.DptID = tbldepartment.ID
+(or)
+select * from tbluser join tbldepartment 
+on tbluser.DptID = tbldepartment.ID
+-outer join
+  -left outer join: Returns all the rows from left and  matching from right table
+  select * from tbluser Left Outer join tbldepartment 
+  on tbluser.DptID = tbldepartment.ID
+  (or)
+  select * from tbluser Left join tbldepartment 
+  on tbluser.DptID = tbldepartment.ID
+  -right outer join: Returns all the rows from right  and  matching from left table
+  select * from tbluser right Outer join tbldepartment 
+  on tbluser.DptID = tbldepartment.ID
+  (or)
+  select * from tbluser right join tbldepartment 
+  on tbluser.DptID = tbldepartment.ID
+  -full join: Returns all the rows from right and  all from left table
+  select * from tbluser FULL Outer join tbldepartment 
+  on tbluser.DptID = tbldepartment.ID
+  (or)
+  select * from tbluser FULL join tbldepartment 
+  on tbluser.DptID = tbldepartment.ID
+-cross join: provides the cartigen product of both the tables, No 'On' should be used for cross join.
+Result of join = number of rows in table1 * number of rows in table2
+  select * from tbluser Cross join tbldepartment 
+
+
+
+
