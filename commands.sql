@@ -39,4 +39,9 @@
 --  ALTER TABLE TBLUSER
 --  ADD CONSTRAINT DF_TBLUSER_GENDER DEFAULT 'eb5dfccf-267d-45f6-a104-ea61bdc5a107' FOR Gender
 
+--check Constraint
+-- alter TABLE tbluser
+-- add  Age int\
 
+-- alter TABLE tbluser
+-- add CONSTRAINT ck_tbluser_age CHECK (Age>0 and Age<150)
