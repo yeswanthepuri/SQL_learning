@@ -102,5 +102,20 @@ Result of join = number of rows in table1 * number of rows in table2
    select * from tbluser self join tbluser on tbluser.managerID =tbluser.ID
 
 
-
+<h4>Replacing Null in SQL</h4>
+<br/>
+<b>ISNULL() function</b>:
+select name,ISNULL(name,'No Manager') as managername from tbluser asuser join tbluser manager
+on user.ManagerID = Manager.ID
+<br/>
+<b>CASE statment</b>:
+select name,
+case
+WHERE manager.name is null then 'No Manager' else manager.Name
+as managername from tbluser asuser join tbluser manager
+on user.ManagerID = Manager.ID
+<br/>
+<b>COALESCE() function</b>:
+select name,COALESCE(name,'No Manager') as managername from tbluser asuser join tbluser manager
+on user.ManagerID = Manager.ID
 
