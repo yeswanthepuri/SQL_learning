@@ -53,3 +53,18 @@ SET IDENTITY_INSERT dbo.Tmp_Names OFF
 ALTER TABLE TABLE_NAME
 ADD CONSTRAINT UQ_TABLENAME_COLUMNNAME UNIQUE COLUMNNAME
 --SINGLE TABLE CAN HAVE MULTIPLE UNIQUE KEYS
+
+group by:
+Group by works with combination of aggregrate function and column.
+Example : select sum(age) as AgeSum,Gender from tbluser GROUP BY Gender
+
+select sum(age) as AgeSum,count(Gender),Gender from tbluser 
+where gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
+GROUP BY Gender 
+
+select sum(age) as AgeSum,count(Gender),Gender from tbluser 
+GROUP BY Gender 
+Having gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
+
+-- in both the cases the we get the same result but in where we only sum the results on gender
+-- but in having we first aggrigate and then filter
