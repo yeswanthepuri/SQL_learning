@@ -30,3 +30,16 @@ Adding a check Constraint:
 syntax:
 alter TABLE tbluser
 add CONSTRAINT ck_tbluser_age CHECK (Age>0 and Age<150)
+
+Identity:
+if a column is added with identity then.
+Alter Table Names
+Add Id_new Int Identity(1, 1)
+Go
+in case if we want to turn off identity to insert some value in column then
+SET IDENTITY_INSERT dbo.Tmp_Names ON
+insert with value then turn it off back
+SET IDENTITY_INSERT dbo.Tmp_Names OFF
+  
+ this is to see the identity after droping some columns and to make use of those numbers
+ DBCC CHECKIDENT(tblPerson, RESEED, 0)
