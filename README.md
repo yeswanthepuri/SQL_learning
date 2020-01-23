@@ -43,3 +43,7 @@ SET IDENTITY_INSERT dbo.Tmp_Names OFF
   
  this is to see the identity after droping some columns and to make use of those numbers
  DBCC CHECKIDENT(tblPerson, RESEED, 0)
+ 
+ SCOPE_IDENTITY() - SAME SESSION AND SAMESCOPE
+ @@IDENTITY() - SAME SESSION AND ANY SCOPE
+ IDENTITY_CURRENT('TABLENAME') - SPECIFIC TABLE ACROSS ANY TABLE AND ANY SCOPE.
