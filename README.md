@@ -118,4 +118,32 @@ on user.ManagerID = Manager.ID
 <b>COALESCE() function</b>: this is used for getting the first non null value.
 select name,COALESCE(name,'No Manager') as managername from tbluser asuser join tbluser manager
 on user.ManagerID = Manager.ID
+<br/>
+<h2>Union and Union All</h2>
+for union and union all to work the datatype and sequence of the order of solumns should be the same.
+<b>Union: </b>
+Return all the distinct result from two different table and also sorts the data.
+Union is slow compare to union all as it should perform distint sort
+ex:
+select sum(age) as AgeSum,count(Gender),Gender from tbluser 
+where gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
+GROUP BY Gender 
+union
+select sum(age) as AgeSum,count(Gender),Gender from tbluser 
+GROUP BY Gender 
+Having gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
+<br/>
+<b>Union All: </b>
+return all the results from two tables including the duplicates
+ex:
+select sum(age) as AgeSum,count(Gender),Gender from tbluser 
+where gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
+GROUP BY Gender 
+union all
+select sum(age) as AgeSum,count(Gender),Gender from tbluser 
+GROUP BY Gender 
+Having gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
+<br/>
+<b>Difference between Union and Join</b>
+union combines result set of two select query where as join will return the logical grouping of two tables.
 
