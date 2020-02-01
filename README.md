@@ -146,4 +146,17 @@ Having gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
 <br/>
 <b>Difference between Union and Join</b>
 union combines result set of two select query where as join will return the logical grouping of two tables.
-
+<br/>
+<h2>Store Procedure</h2>
+Store procedure is a group of transaction statment, this keep the query constrected an make the execution if the same query is used over and over.
+<br/>
+Syntax EX: 
+<br/>
+CREATE PROCEDURE spGetagegroupedbyGender
+AS
+BEGIN
+select sum(age) as AgeSum,count(Gender),Gender from tbluser 
+where gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
+GROUP BY Gender 
+END
+<br/>
