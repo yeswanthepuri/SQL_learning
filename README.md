@@ -160,3 +160,22 @@ where gender = 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b'
 GROUP BY Gender 
 END
 <br/>
+<h2>Store Procedure with input and output paramater</h2>
+<br />
+<h5>Creating SP with input and output paramater</h5>
+<br/>
+CREATE PROCEDURE spGetagegroupedbyGender
+@Gender UNIQUEIDENTIFIER,
+@EmployCount int output
+AS
+BEGIN
+select @EmployCount = count(Gender) from tbluser 
+where gender = @Gender
+GROUP BY Gender 
+END
+<br/>
+<h5>Execute SQL</h5>
+DECLARE @EmployCount INT
+EXEC spGetagegroupedbyGender 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b', @EmployCount output
+PRINT @EmployCount
+<br/>
