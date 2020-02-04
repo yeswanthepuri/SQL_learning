@@ -175,7 +175,16 @@ GROUP BY Gender
 END
 <br/>
 <h5>Execute SQL</h5>
+-- to execute this output paramater the data type shoul match.
 DECLARE @EmployCount INT
 EXEC spGetagegroupedbyGender 'eb6e93f0-a836-4d65-8f51-1aae29a9dd8b', @EmployCount output
 PRINT @EmployCount
+<br/>
+sp_help procedure_name - view the info of the storeprocedure.
+<br />
+sp_helptext procedure_name - view the text of the sp
+<br />
+sp_depends procedure_name - showes the depedency ex: any sp or tables that is refering this SP.
+ <br/>
+if no output paramater is declared the the value @EmployCount wil be null.
 <br/>
