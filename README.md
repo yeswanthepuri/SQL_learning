@@ -345,3 +345,16 @@ End
 executing the function
 
 Select Id, Names, DateOfBirth, dbo.fnComputeAge(DateOfBirth) as Age from TBLUSER
+
+<br/>
+<h2>Cast and Convert functions</h2>
+CAST ( expression AS data_type [ ( length ) ] )
+CONVERT ( data_type [ ( length ) ] , expression [ , style ] )
+<br/>
+To get just the date part, from DateTime
+SELECT CONVERT(VARCHAR(10),GETDATE(),101)
+
+In SQL Server 2008, Date datatype is introduced, so you can also use
+SELECT CAST(GETDATE() as DATE)
+SELECT CONVERT(DATE, GETDATE())
+
