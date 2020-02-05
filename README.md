@@ -357,4 +357,150 @@ SELECT CONVERT(VARCHAR(10),GETDATE(),101)
 In SQL Server 2008, Date datatype is introduced, so you can also use
 SELECT CAST(GETDATE() as DATE)
 SELECT CONVERT(DATE, GETDATE())
+<h3>Mathematical functions</h3>
+they are many predefined mathematical functions in SQL sever we will look into that below.
 
+ABS(number_expression)- Absolute returns positive for any number that is given.
+select ABS(-123) o/p: 123
+CEILING(number_expression) and Floor(number_expression) : Both accept a number expression as a sing number and are used to round the number to the nearest higher number ex
+
+select CEILING(15.2) -- return 16
+select CEILING(-15.2) -- return -15
+
+
+
+select FLOOR(15.2) -- return 15
+select FLOOR(-15.2) -- return 16
+
+Power(expression,Power) -- Power(2,3) o/p:8
+Sqauar(Expression) -- sqaure(3) o/p:9
+SQRT(expression) -- SQRT(81) o/p:9
+<br/>
+Rand([seed value])-
+RAND() -- returns a random value that is between 0 and 1 and if you pass seed value it returns a random value once
+Rand() -- some random number
+Rand(1) -- random value only once
+<br/>
+ROUND ( numeric_expression , length [ ,function ] ) - Rounds the given numeric expression based on the given length. This function takes 3 parameters. 
+1. Numeric_Expression is the number that we want to round.
+2. Length parameter, specifies the number of the digits that we want to round to. If the length is a positive number, then the rounding is applied for the decimal part, where as if the length is negative, then the rounding is applied to the number before the decimal.
+3. The optional function parameter, is used to indicate rounding or truncation operations. A value of 0, indicates rounding, where as a value of non zero indicates truncation. Default, if not specified is 0.
+
+Examples:
+ -- Round to 2 places after (to the right) the decimal point
+Select ROUND(850.556, 2) -- Returns 850.560
+
+-- Truncate anything after 2 places, after (to the right) the decimal point
+Select ROUND(850.556, 2, 1) -- Returns 850.550
+
+-- Round to 1 place after (to the right) the decimal point
+Select ROUND(850.556, 1) -- Returns 850.600
+
+-- Truncate anything after 1 place, after (to the right) the decimal point
+Select ROUND(850.556, 1, 1) -- Returns 850.500
+
+-- Round the last 2 places before (to the left) the decimal point
+Select ROUND(850.556, -2) -- 900.000
+
+-- Round the last 1 place before (to the left) the decimal point
+Select ROUND(850.556, -1) -- 850.000
+<h3>User Defined Function(UDF)</h3>
+Function should always return a single scalar value. function can return any datatype except Text,nText,image,cursor and timestamp.
+they are 3 type of functions in SQL
+1. Scalar functions
+2. Inline table-valued functions
+3. Multistatement table-valued functions
+
+it's always prefered to define a scalar function with 2 part name  ex: dbo.function_name([paramater])
+
+store procedure and function is almost the same but a function can be defined in a select statment can make use of a function but not store procedure.
+Scalar Function:
+<br/>
+ex:
+CREATE FUNCTION fnComputeAge(@DOB DATETIME)
+RETURNS NVARCHAR(50)
+AS
+BEGIN
+
+DECLARE @tempdate DATETIME, @years INT, @months INT, @days INT
+SELECT @tempdate = @DOB
+
+SELECT @years = DATEDIFF(YEAR, @tempdate, GETDATE()) - CASE WHEN (MONTH(@DOB) > MONTH(GETDATE())) OR (MONTH(@DOB) = MONTH(GETDATE()) AND DAY(@DOB) > DAY(GETDATE())) THEN 1 ELSE 0 END
+SELECT @tempdate = DATEADD(YEAR, @years, @tempdate)
+
+SELECT @months = DATEDIFF(MONTH, @tempdate, GETDATE()) - CASE WHEN DAY(@DOB) > DAY(GETDATE()) THEN 1 ELSE 0 END
+SELECT @tempdate = DATEADD(MONTH, @months, @tempdate)
+
+SELECT @days = DATEDIFF(DAY, @tempdate, GETDATE())
+
+DECLARE @Age NVARCHAR(50)
+SET @Age = Cast(@years AS  NVARCHAR(4)) + ' Years ' + Cast(@months AS  NVARCHAR(2))+ ' Months ' +  Cast(@days AS  NVARCHAR(2))+ ' Days Old'
+RETURN @Age
+
+End
+-- how to execute the table value function
+Select Id, Names, DateOfBirth, dbo.fnComputeAge(DateOfBirth) as Age from TBLUSER
+
+<br/>
+Inline Table Value Function:
+CREATE FUNCTION fnReturnNames(@gender UNIQUEIDENTIFIER)
+RETURNS TABLE
+AS
+return (SELECT * from TBLUSER
+WHERE Gender = @gender
+)
+
+-- how to execute the table value function
+
+select * from dbo.fnReturnNames('eb6e93f0-a836-4d65-8f51-1aae29a9dd8b')
+--in line table value functions are replacment for paramatirised views.
+--dont have begin and end
+<br/>
+Multi-statment table value functions:
+-- in line table value function will not have a table structure it will return the structure of table in the select statment
+-- multi statment value function has a begin and end block and it will have the table structure pre defined in the <b>returns</b>
+CREATE FUNCTION fnReturnuser_withGender_filter(@gender UNIQUEIDENTIFIER)
+RETURNS @table TABLE ([NAMES] VARCHAR(60),Gender varchar(40),DateOFBirth DATE) 
+BEGIN
+insert into @table 
+SELECT [NAMES],Cast(Gender as varchar(40)),Cast(DateOFBirth as date) from TBLUSER
+WHERE Gender = @gender
+
+RETURN
+END
+-- how to execute the table value function
+
+select * from dbo.fnReturnuser_withGender_filter('eb6e93f0-a836-4d65-8f51-1aae29a9dd8b')
+
+1. In an Inline Table Valued function, the RETURNS clause cannot contain the structure of the table, the function returns. Where as, with the multi-statement table valued function, we specify the structure of the table that gets returned
+2. Inline Table Valued function cannot have BEGIN and END block, where as the multi-statement function can have.
+3. Inline Table valued functions are better for performance, than multi-statement table valued functions. If the given task, can be achieved using an inline table valued function, always prefer to use them, over multi-statement table valued functions.
+4. It's possible to update the underlying table, using an inline table valued function, but not possible using multi-statement table valued function.
+<BR/>
+Updating the underlying table using inline table valued function: 
+This query will change Sam to Sam1, in the underlying table tblEmployees. When you try do the same thing with the multi-statement table valued function, you will get an error stating 'Object 'fn_MSTVF_GetEmployees' cannot be modified.'
+Update fn_ILTVF_GetEmployees() set Name='Sam1' Where Id = 1
+
+Reason for improved performance of an inline table valued function:
+Internally, SQL Server treats an inline table valued function much like it would a view and treats a multi-statement table valued function similar to how it would a stored procedure.
+<br/>
+Now, let's alter the function to use WITH ENCRYPTION OPTION
+Alter Function fn_GetEmployeeNameById(@Id int)
+Returns nvarchar(20)
+With Encryption
+as
+Begin
+ Return (Select Name from tblEmployees Where Id = @Id)
+End
+<br/>
+sp_helptex fn_GetEmployeeNameById -- this will return the text of the function
+<br/>
+
+if we use shemabinding on a function it will stop the deleting of table 
+Alter Function fn_GetEmployeeNameById(@Id int)
+Returns nvarchar(20)
+With SCHEMABINDING
+as
+Begin
+ Return (Select Name from tblEmployees Where Id = @Id)
+End
