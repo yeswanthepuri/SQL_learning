@@ -504,3 +504,54 @@ as
 Begin
  Return (Select Name from tblEmployees Where Id = @Id)
 End
+<br/>
+<h3>Temporary table</h3>
+What are Temporary tables?
+Temporary tables, are very similar to the permanent tables. Permanent tables get created in the database you specify, and remain in the database permanently, until you delete (drop) them. On the other hand, temporary tables get created in the TempDB and are automatically deleted, when they are no longer used.
+2 types of temp tables:
+1.Local Temporary tables
+2.Global temporary table
+Create a temp table 
+#PersonDetails is a local temporary table, with Id and Name columns.
+Create Table #PersonDetails(Id int, Name nvarchar(20))
+
+Insert Data into the temporary table:
+Insert into #PersonDetails Values(1, 'Mike')
+Insert into #PersonDetails Values(2, 'John')
+Insert into #PersonDetails Values(3, 'Todd')
+
+Select the data from the temporary table:
+Select * from #PersonDetails
+
+the scope of this table is only the connection we created. you can check with a select Query or in the explorer window.
+
+the scope of this table is only till the onnection in case if we want to drop the table during the scope the he can use this Query 
+
+DROP TABLE #PersonDetails
+How to Create a Global Temporary Table:
+To create a Global Temporary Table, prefix the name of the table with 2 pound (##) symbols. EmployeeDetails Table is the global temporary table, as we have prefixed it with 2 ## symbols.
+Create Table ##EmployeeDetails(Id int, Name nvarchar(20))
+Global temporary tables are visible to all the connections of the sql server, and are only destroyed when the last connection referencing the table is closed.
+
+Multiple users, across multiple connections can have local temporary tables with the same name, but, a global temporary table name has to be unique, and if you inspect the name of the global temp table, in the object explorer, there will be no random numbers suffixed at the end of the table name.
+
+Difference Between Local and Global Temporary Tables:
+1. Local Temp tables are prefixed with single pound (#) symbol, where as gloabl temp tables are prefixed with 2 pound (##) symbols.
+
+2. SQL Server appends some random numbers at the end of the local temp table name, where this is not done for global temp table names.
+
+3. Local temporary tables are only visible to that session of the SQL Server which has created it, where as Global temporary tables are visible to all the SQL server sessions
+
+4. Local temporary tables are automatically dropped, when the session that created the temporary tables is closed, where as Global temporary tables are destroyed when the last connection that is referencing the global temp table is closed.
+<h3>Indexes</h3>
+Why indexes?
+Indexes are used by queries to find data from tables quickly. Indexes are created on tables and views. Index on a table or a view, is very similar to an index that we find in a book.
+<br/>
+
+<b>How to create the index</b>
+CREATE Index IX_tblEmployee_Salary 
+ON tblEmployee (SALARY ASC)
+<b>How to Drop the index</b>
+Drop Index tblEmployee.IX_tblEmployee_Salary
+To view the Indexes: In the object explorer, expand Indexes folder. Alternatively use sp_helptext system stored procedure. The following command query returns all the indexes on tblEmployee table.
+Execute sp_helptext tblEmployee
